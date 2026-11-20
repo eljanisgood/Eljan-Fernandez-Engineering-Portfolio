@@ -1,0 +1,119 @@
+import pygame
+import numpy as np
+pygame.init()
+
+#COLORS
+BLUEPRINT = (42, 49, 63)
+NAVY = (31, 36, 46)
+WHITE = (255,255,255)
+
+#INIT SCREEN
+pygame.init()
+pygame.display.set_caption("BASIC ELECTRIC SIMULATOR")
+SCREEN_SIZE_X = 640
+SCREEN_SIZE_Y = 480 
+RESOLUTION = (SCREEN_SIZE_X,SCREEN_SIZE_Y)
+window = pygame.display.set_mode(RESOLUTION)
+
+
+#PROPERTIES
+GRIDSIZE = 100
+DEFAULT_FONT = "Arial"
+DEFAULT_FONT_SIZE = 25
+
+#MAIN COMPONENTS
+class Component:
+    def __init__(self):
+        return
+
+class CircuitSolver:
+
+    #TO DO    
+        #INTEGRATE NODE DETECTOR
+        #INTEGRATE EDGE DETECTOR
+        #INTEGRATE RESISTOR DETECTOR
+    
+    def __init__(self):
+        return 
+
+class UI:
+    def __init__(self, xpos: int, ypos: int, font: str = None, fontSize: int = None):
+        if font is None:
+            font = DEFAULT_FONT
+        if fontSize is None:
+            fontSize = DEFAULT_FONT_SIZE
+        self.xpos = xpos
+        self.ypos = ypos
+        self.font = font
+        self.fontSize = fontSize
+        return
+
+    def UIDisplay(self, text : str):
+        font = pygame.font.SysFont(self.font, self.fontSize)
+        text = font.render(text, True, WHITE)
+        window.blit(text, (self.xpos, self.ypos))
+        return 
+
+class Grid:    
+
+    def __init__(self, sideLength : int, xpos : int, ypos : int):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.position = (self.xpos, self.ypos)
+        self.sideLength = sideLength
+        self.size = (self.sideLength, self.sideLength)
+    
+    def display(self): 
+        return pygame.draw.rect(window, (NAVY), (self.position, self.size))
+
+    def hoverDisplay(self):
+        return
+
+class GridRenderer:
+
+    #TO DO:
+        #MAKE HITBOX LATER
+        #CHANGE THE DISPLAY LOGIC, DISPLAY SHOULD BE ABLE TO DISPLAY ON ITS OWN.
+
+    def __init__(self, gd : Grid, gridRendSize : tuple =None):
+
+        if gridRendSize is None:
+            gridRendSize = (5,5)
+
+        self.grid = gd
+        self.space = gd*0.10
+        self.gridRendSize = np.zeros((gridRendSize))
+
+    def render(self):
+        for _ in self.gridRendSize:
+            self.grid.display()
+        return 
+
+#GRID SETUP
+grid = Grid(GRIDSIZE, SCREEN_SIZE_X/2-GRIDSIZE/2, SCREEN_SIZE_Y/2-GRIDSIZE/2)
+
+
+#SETUP
+MOUSECOORDX = 0
+MOUSECOORDY = 0
+
+while True:
+
+#ALL UI DISPLAYS HERE 
+    window.fill(BLUEPRINT)
+    #MOUSE COORD DISPLAY
+    coordUI = UI(0, 465, None, 10)
+    coordUI.UIDisplay(f"x = {MOUSECOORDX}   y = {MOUSECOORDY}")
+
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEMOTION:
+            #MOUSE TRACKER
+            x, y = pygame.mouse.get_pos()
+            MOUSECOORDX = x
+            MOUSECOORDY = y
+
+        if event.type == pygame.QUIT:
+            exit()
+
+
+    pygame.display.flip()
